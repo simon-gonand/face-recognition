@@ -46,6 +46,8 @@ int main(int argc, char *argv[])
   double fps = 30;
   const char win_name[] = "Face Recognition";
   
+  cv::Rect myROI(250, 115, 180, 230);
+  cv::Mat cropped_frame;
   cv::Mat gray_frame;
   cv::Mat resize_frame;
   cv::Size size(92, 112);
@@ -59,10 +61,10 @@ int main(int argc, char *argv[])
 
   while (true) {
       vid_in >> frame;
-      
+     
+      cropped_frame = frame(myROI);
 
-      cv::Rect myROI(250, 115, 180, 230);
-      cv::Mat cropped_frame = frame(myROI);
+
 
       imshow(win_name, cropped_frame);
 
