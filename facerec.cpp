@@ -59,9 +59,14 @@ int main(int argc, char *argv[])
 
   while (true) {
       vid_in >> frame;
-      imshow(win_name, frame);
+      
 
-      cvtColor(frame, gray_frame, CV_BGR2GRAY);
+      cv::Rect myROI(250, 115, 180, 230);
+      cv::Mat cropped_frame = frame(myROI);
+
+      imshow(win_name, cropped_frame);
+
+      cvtColor(cropped_frame, gray_frame, CV_BGR2GRAY);
       cv::resize(gray_frame, resize_frame, size);
 
       int predictedLabel = model->predict(resize_frame);
