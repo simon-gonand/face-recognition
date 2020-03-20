@@ -29,14 +29,6 @@ int main(int argc, char *argv[])
     }
   }
 
-  // Randomly choose an image, and remove it from the main collection
-  /*std::srand(std::time(0));
-  int rand_image_id = 350;
-  cv::Mat testSample = images[rand_image_id];
-  int     testLabel  = labels[rand_image_id];
-  images.erase(images.begin() + rand_image_id);
-  labels.erase(labels.begin() + rand_image_id);
-  std::cout << "Actual class    = " << testLabel << '\n';*/
   std::cout << " training..." << std::endl;
 
   cv::Ptr<cv::face::BasicFaceRecognizer> model = cv::face::EigenFaceRecognizer::create();
@@ -46,7 +38,7 @@ int main(int argc, char *argv[])
   double fps = 30;
   const char win_name[] = "Face Recognition";
   
-  cv::Rect myROI(250, 115, 180, 230);
+  cv::Rect myROI(250, 115, 180, 230); // rectangle which will define the cropped frame
   cv::Mat cropped_frame;
   cv::Mat reverse_frame;
   cv::Mat gray_frame;
@@ -63,14 +55,14 @@ int main(int argc, char *argv[])
   while (true) {
       vid_in >> frame;
      
-      cropped_frame = frame(myROI);
+      cropped_frame = frame(myROI); // cropped frame with the rectangle initialize before
 
-      cv::flip(cropped_frame, reverse_frame, 1);
+      cv::flip(cropped_frame, reverse_frame, 1); // flip the image in order to simplify the user's positioning 
 
       imshow(win_name, reverse_frame);
 
-      cvtColor(cropped_frame, gray_frame, CV_BGR2GRAY);
-      cv::resize(gray_frame, resize_frame, size);
+      cvtColor(cropped_frame, gray_frame, CV_BGR2GRAY); // switch the frame to gray scale 
+      cv::resize(gray_frame, resize_frame, size); // and resize it in order to use the predict method
 
       int predictedLabel = model->predict(resize_frame);
       std::cout << "\nPredicted class = " << predictedLabel << '\n';
