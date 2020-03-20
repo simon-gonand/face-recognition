@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
   
   cv::Rect myROI(250, 115, 180, 230);
   cv::Mat cropped_frame;
+  cv::Mat reverse_frame;
   cv::Mat gray_frame;
   cv::Mat resize_frame;
   cv::Size size(92, 112);
@@ -64,9 +65,9 @@ int main(int argc, char *argv[])
      
       cropped_frame = frame(myROI);
 
+      cv::flip(cropped_frame, reverse_frame, 1);
 
-
-      imshow(win_name, cropped_frame);
+      imshow(win_name, reverse_frame);
 
       cvtColor(cropped_frame, gray_frame, CV_BGR2GRAY);
       cv::resize(gray_frame, resize_frame, size);
